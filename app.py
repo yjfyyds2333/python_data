@@ -8,6 +8,7 @@ dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(dir)
 
 matplotlib.rcParams['font.family'] = "SimHei"
+plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei', 'SimHei']
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 # 数据缓存以及清洗

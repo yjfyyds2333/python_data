@@ -1,23 +1,16 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib
 import os
-from matplotlib.font_manager import FontProperties
+
 
 dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(dir)
 
-# 强制清空所有配置、缓存、历史字体（绝杀）
-matplotlib.rcParams.clear()
-plt.rcdefaults()
-
-# ------------------- 核心：加载 msyh.ttc 字体集 -------------------
-# .ttc 是字体合集，必须加 index=0！！！ 之前没加，所以加载失败！
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['msyh.ttc']  # 直接用文件名，不写字体名！
+# 云端自带中文字体（文泉驿正黑），本地+部署通用，永不报错
+plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
+# 修复负号显示方框
 plt.rcParams['axes.unicode_minus'] = False
-# ----------------------------------------------------------------
 
 # 数据缓存以及清洗
 @st.cache_data

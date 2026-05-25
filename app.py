@@ -8,16 +8,16 @@ from matplotlib.font_manager import FontProperties
 dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(dir)
 
-# 1. 强制清空matplotlib所有缓存/旧配置（解决90%乱码根源）
+# 强制清空所有配置、缓存、历史字体（绝杀）
 matplotlib.rcParams.clear()
 plt.rcdefaults()
 
-# 2. 固定加载项目内的 msyh.ttc 字体文件（必须和app.py同文件夹）
-font = FontProperties(fname="msyh.ttc")
-
-# 3. 全局强制绑定字体（无任何兜底、无任何冲突）
-plt.rcParams["font.family"] = font.get_name()
-plt.rcParams["axes.unicode_minus"] = False  # 负号正常显示
+# ------------------- 核心：加载 msyh.ttc 字体集 -------------------
+# .ttc 是字体合集，必须加 index=0！！！ 之前没加，所以加载失败！
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = ['msyh.ttc']  # 直接用文件名，不写字体名！
+plt.rcParams['axes.unicode_minus'] = False
+# ----------------------------------------------------------------
 
 # 数据缓存以及清洗
 @st.cache_data

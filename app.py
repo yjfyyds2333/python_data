@@ -8,33 +8,16 @@ from matplotlib.font_manager import FontProperties
 dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(dir)
 
-import matplotlib.pyplot as plt
-from matplotlib.font_manager import FontProperties
-import matplotlib
-import os
-
-# 1. 先检查字体文件是否存在（打印路径和存在状态）
-font_path = "msyh.ttc"
-print(f"当前目录文件列表: {os.listdir('.')}")
-print(f"字体文件是否存在: {os.path.exists(font_path)}")
-
-# 2. 强制清除Matplotlib缓存
-matplotlib.rcParams.update(matplotlib.rcParamsDefault)
+# 1. 强制清空matplotlib所有缓存/旧配置（解决90%乱码根源）
+matplotlib.rcParams.clear()
 plt.rcdefaults()
 
-# 3. 尝试加载字体并打印结果
-try:
-    font = FontProperties(fname=font_path)
-    print(f"✅ 字体加载成功！字体名称: {font.get_name()}")
-    # 强制设置为全局默认字体
-    plt.rcParams["font.family"] = font.get_name()
-    plt.rcParams["axes.unicode_minus"] = False
-except Exception as e:
-    print(f"❌ 字体加载失败，错误信息: {e}")
-    # 加载失败时，强制使用Streamlit自带的中文字体兜底
-    plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
-    plt.rcParams['axes.unicode_minus'] = False
+# 2. 固定加载项目内的 msyh.ttc 字体文件（必须和app.py同文件夹）
+font = FontProperties(fname="msyh.ttc")
 
+# 3. 全局强制绑定字体（无任何兜底、无任何冲突）
+plt.rcParams["font.family"] = font.get_name()
+plt.rcParams["axes.unicode_minus"] = False  # 负号正常显示
 
 # 数据缓存以及清洗
 @st.cache_data

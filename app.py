@@ -3,13 +3,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 import os
+from matplotlib.font_manager import FontProperties
 
 dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(dir)
 
-matplotlib.rcParams['font.family'] = "SimHei"
-plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei', 'SimHei']
-matplotlib.rcParams['axes.unicode_minus'] = False
+# ============== 自动适配：本地 + 云端 双环境字体 ==============
+try:
+    # 【云端部署环境】加载项目目录中的微软雅黑字体
+    font = FontProperties(fname="msyh.ttf")
+    plt.rcParams['font.sans-serif'] = [font.get_name()]
+except:
+    # 【本地运行环境】直接调用系统自带的微软雅黑
+    plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+
+# 统一解决负号乱码
+plt.rcParams['axes.unicode_minus'] = False
+# ============================================================
+
 
 # 数据缓存以及清洗
 @st.cache_data

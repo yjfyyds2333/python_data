@@ -11,7 +11,7 @@ os.chdir(dir)
 # ============== 自动适配：本地 + 云端 双环境字体 ==============
 try:
     # 【云端部署环境】加载项目目录中的微软雅黑字体
-    font = FontProperties(fname="msyh.ttf")
+    font = FontProperties(fname="msyh.ttc")
     plt.rcParams['font.sans-serif'] = [font.get_name()]
 except:
     # 【本地运行环境】直接调用系统自带的微软雅黑

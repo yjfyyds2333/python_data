@@ -8,18 +8,16 @@ from matplotlib.font_manager import FontProperties
 dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(dir)
 
-# ============== 自动适配：本地 + 云端 双环境字体 ==============
-try:
-    # 【云端部署环境】加载项目目录中的微软雅黑字体
-    font = FontProperties(fname="msyh.ttc")
-    plt.rcParams['font.sans-serif'] = [font.get_name()]
-except:
-    # 【本地运行环境】直接调用系统自带的微软雅黑
-    plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+# 强制重置matplotlib配置 + 清除字体缓存（解决乱码核心！）
+plt.rcdefaults()
 
-# 统一解决负号乱码
-plt.rcParams['axes.unicode_minus'] = False
-# ============================================================
+# 加载你项目里的 微软雅黑 ttc 字体文件
+font = FontProperties(fname="msyh.ttc")
+
+# 全局强制设置字体（覆盖所有环境，不依赖系统）
+plt.rcParams["font.family"] = "sans-serif"
+plt.rcParams["font.sans-serif"] = [font.get_name()]
+plt.rcParams["axes.unicode_minus"] = False  # 修复负号方框
 
 
 # 数据缓存以及清洗

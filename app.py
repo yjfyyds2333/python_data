@@ -8,16 +8,32 @@ from matplotlib.font_manager import FontProperties
 dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(dir)
 
-# 强制重置matplotlib配置 + 清除字体缓存（解决乱码核心！）
+import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
+import matplotlib
+import os
+
+# 1. 先检查字体文件是否存在（打印路径和存在状态）
+font_path = "msyh.ttc"
+print(f"当前目录文件列表: {os.listdir('.')}")
+print(f"字体文件是否存在: {os.path.exists(font_path)}")
+
+# 2. 强制清除Matplotlib缓存
+matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 plt.rcdefaults()
 
-# 加载你项目里的 微软雅黑 ttc 字体文件
-font = FontProperties(fname="msyh.ttc")
-
-# 全局强制设置字体（覆盖所有环境，不依赖系统）
-plt.rcParams["font.family"] = "sans-serif"
-plt.rcParams["font.sans-serif"] = [font.get_name()]
-plt.rcParams["axes.unicode_minus"] = False  # 修复负号方框
+# 3. 尝试加载字体并打印结果
+try:
+    font = FontProperties(fname=font_path)
+    print(f"✅ 字体加载成功！字体名称: {font.get_name()}")
+    # 强制设置为全局默认字体
+    plt.rcParams["font.family"] = font.get_name()
+    plt.rcParams["axes.unicode_minus"] = False
+except Exception as e:
+    print(f"❌ 字体加载失败，错误信息: {e}")
+    # 加载失败时，强制使用Streamlit自带的中文字体兜底
+    plt.rcParams['font.sans-serif'] = ['WenQuanYi Zen Hei']
+    plt.rcParams['axes.unicode_minus'] = False
 
 
 # 数据缓存以及清洗
